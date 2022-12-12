@@ -11,6 +11,7 @@ var getWeatherData = function(w) {
         if (response.ok) {
             response.json().then(function (data) {
                 console.log(data);
+                // showWeather(w.data)
             });
         }
     })
@@ -25,7 +26,7 @@ var getWeatherData = function(w) {
         getWeatherData(w);
     }
     
-
+  
 
 
 

@@ -11,11 +11,23 @@
 </head>
 <body>
     <header class="bg-dark bg-gradient text-center min-width-100 rounded-4 p-4 m-4">
-        <h1 class="text-white ">Weather Dashboard</h1>
+        <h1 class="text-white">Weather Dashboard</h1>
     </header>
-    <div>
+        <div class="row">
+            <div class="col-12 searchParent">
+                <div class="col-4 text-center min-vh-100">
+                    <h2 class="m-3">Search for your city here:</h2>
+                    <input type="text" id="user-search" class="form-control m-3" placeholder="Please enter city" >
+                    <button type="button" class="btn btn-primary btn-lg">Search</button>
+                </div>
         
-    </div>
+            <div class="col-6 currentWeatherParent card">
+                    
+                    <div class="currentWeather card-body">
+                    </div>
+                </div>    
+            </div>
+        </div>
     
 </body>
 <script src = ./assets/script.js></script>

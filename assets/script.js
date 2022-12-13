@@ -16,7 +16,7 @@ var getCode = function(w){
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-               getCoords(data)
+               getCoords(data);
             });
         }
     })
@@ -39,6 +39,7 @@ var resolveLocation = function(lattitude, longitude) {
         if (response.ok) {
             response.json().then(function (data) {
                 console.log(data);
+                displayMainCard(data.city, data.list);
                 
             });
         }
@@ -46,6 +47,12 @@ var resolveLocation = function(lattitude, longitude) {
     .catch(function (error) {
             
         });
+    }
+
+    var displayMainCard = function(city, list){
+        var icon = list[0].weather[0].icon
+        var iconImage = 'http://openweathermap.org/img/w/' + icon + '.png';
+        console.log(iconImage)
     }
 
 

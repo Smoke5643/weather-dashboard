@@ -52,7 +52,14 @@ var resolveLocation = function(lattitude, longitude) {
     var displayMainCard = function(city, list){
         var icon = list[0].weather[0].icon
         var iconImage = 'http://openweathermap.org/img/w/' + icon + '.png';
-        console.log(iconImage)
+        
+        var cardTitle = document.createElement('h2')
+        var iconSpan = document.createElement('span')
+        var iconImg = document.createElement('img')
+        var tempPEl = document.createElement('p')
+        var windPEl = document.createElement('p')
+        var humidityPEl = document.createElement('p')
+        
     }
 
 

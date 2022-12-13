@@ -50,9 +50,12 @@ var resolveLocation = function(lattitude, longitude) {
     }
 
     var displayMainCard = function(city, list){
+        currentCard.innerHTML = null;
         var icon = list[0].weather[0].icon
         var iconImage = 'http://openweathermap.org/img/w/' + icon + '.png';
         
+        var card = document.createElement('div')
+        var cardBody = document.createElement('div')
         var cardTitle = document.createElement('h2');
         var iconSpan = document.createElement('span');
         var iconImg = document.createElement('img');
@@ -60,6 +63,8 @@ var resolveLocation = function(lattitude, longitude) {
         var windPEl = document.createElement('p');
         var humidityPEl = document.createElement('p');
 
+        card.className = 'card col-10 m-3 p-3';
+        cardBody.classname = 'card-body';
         cardTitle.className = 'card-title';
         iconImg.setAttribute('src', iconImage)
         iconImg.setAttribute('alt', 'Open Weather Icon')
@@ -69,11 +74,11 @@ var resolveLocation = function(lattitude, longitude) {
         windPEl.textContent = 'Wind: ' + list[0].wind.speed + ' MPH';
         humidityPEl.textContent = 'Humidity: ' + list[0].main.humidity + ' %';
 
-        currentCard.append(cardTitle, tempPEl, windPEl, humidityPEl);
+        currentCard.append(card);
+        card.append(cardBody);
+        cardBody.append(cardTitle, tempPEl, windPEl, humidityPEl);
         cardTitle.appendChild(iconSpan);
         iconSpan.append(iconImg);
-
-        
     }
 
 

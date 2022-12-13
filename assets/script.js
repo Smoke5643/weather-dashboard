@@ -16,16 +16,37 @@ var getCode = function(w){
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                console.log(data);
-                
+               getCoords(data)
             });
         }
     })
     // .catch(function (error) {
             
     // });
-    
 }
+
+var getCoords = function(data) {
+    var lattitude = data[0].lat;
+    var longitude = data[0].lon;
+    resolveLocation(lattitude, longitude);
+}
+
+var resolveLocation = function(lattitude, longitude) {    
+    var openWeatherURL = 'https:api.openweathermap.org/data/2.5/forecast?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
+    
+    fetch(openWeatherURL)
+    .then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                console.log(data);
+                
+            });
+        }
+    })
+    .catch(function (error) {
+            
+        });
+    }
 
 
 

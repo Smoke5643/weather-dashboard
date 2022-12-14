@@ -1,7 +1,8 @@
 var apiKey = '2193d760faaf2569d7030d04e1cbd2cc';
 var input = document.querySelector('#user-search')
 var searchBtn = document.querySelector('.searchButton');
-var currentCard = document.querySelector('.currentWeather')
+var currentCard = document.querySelector('.currentWeather');
+var fail = document.querySelector('.fail-button');
 
 var startSearch = function(event) {
     event.preventDefault();
@@ -18,13 +19,14 @@ var getCode = function(w){
             response.json().then(function (data) {
                getCoords(data);
             });
-        }
-    })
-    // .catch(function (error) {
-            
-    // });
-}
-
+        } else {
+            fail.click();
+         }
+     })
+     .catch(function (error) {
+         fail.click();
+     });
+ }
 var getCoords = function(data) {
     var lattitude = data[0].lat;
     var longitude = data[0].lon;
@@ -32,7 +34,7 @@ var getCoords = function(data) {
 }
 
 var resolveLocation = function(lattitude, longitude) {    
-    var openWeatherURL = 'https:api.openweathermap.org/data/2.5/forecast?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
+    var openWeatherURL = 'https:api.openweathermap.org/data/2.5/f1orecast?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
     
     fetch(openWeatherURL)
     .then(function (response) {
@@ -42,12 +44,14 @@ var resolveLocation = function(lattitude, longitude) {
                 displayMainCard(data.city, data.list);
                 
             });
-        }
-    })
-    .catch(function (error) {
-            
-        });
-    }
+        } else {
+            fail.click();
+         }
+     })
+     .catch(function (error) {
+         fail.click();
+     });
+ }
 
     var displayMainCard = function(city, list){
         currentCard.innerHTML = null;

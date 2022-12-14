@@ -1,7 +1,8 @@
 var apiKey = '2193d760faaf2569d7030d04e1cbd2cc';
 var input = document.querySelector('#user-search')
 var searchBtn = document.querySelector('.searchButton');
-var currentCard = document.querySelector('.currentWeather');
+var currentCard = document.querySelector('.currentWeatherParent');
+var fiveDayCard = document.querySelector('.currentWeather');
 var fail = document.querySelector('.fail-button');
 
 var startSearch = function(event) {
@@ -31,6 +32,7 @@ var getCoords = function(data) {
     var lattitude = data[0].lat;
     var longitude = data[0].lon;
     resolveCurrent(lattitude, longitude);
+    resolveFiveDay(lattitude, longitude);
 }
 
 var resolveCurrent = function(lattitude, longitude) {    
@@ -59,8 +61,7 @@ var resolveFiveDay = function(lattitude, longitude) {
     .then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                console.log(data);
-                displayFiveDay(data.city, data.list)
+                displayFiveDay(data.list)
                 
             });
         } else {
@@ -106,11 +107,19 @@ var resolveFiveDay = function(lattitude, longitude) {
         iconSpan.append(iconImg);
     }
 
-    var displayFiveDay = function (city, list){
-        for(i = 0; i < displayMainCard.length)
-        var card = document.createElement('div')
-        var cardBody = document.createElement('div')
-        var cardTitle = document.createElement('h2');
+    var displayFiveDay = function (list){
+        console.log(list);
+
+        for (var i = 0; i < list.length; i += 8) {
+
+        var unixTimestamp = list[i].dt;
+        var date = new Date(unixTimestamp * 1000);
+        var icon = list[i].weather[0].icon;
+        var iconImage = 'http://openweathermap.org/img/w/' + icon + '.png';
+
+        var card = document.createElement('div');
+        var cardBody = document.createElement('div');
+        var cardTitle = document.createElement('h5');
         var iconSpan = document.createElement('span');
         var iconImg = document.createElement('img');
         var tempPEl = document.createElement('p');
@@ -122,6 +131,18 @@ var resolveFiveDay = function(lattitude, longitude) {
         cardTitle.className = 'card-title';
         iconImg.setAttribute('src', iconImage)
         iconImg.setAttribute('alt', 'Open Weather Icon')
+
+        cardTitle.textContent = date.toLocaleDateString('en-US');
+        tempPEl.textContent = 'Temp: ' + list[i].main.temp + ' °F';
+        windPEl.textContent = 'Wind: ' + list[i].wind.speed + ' MPH';
+        humidityPEl.textContent = 'Humidity: ' + list[i].main.humidity + ' %';
+
+        currentCard.append(card);
+        card.append(cardBody);
+        cardBody.append(cardTitle, tempPEl, windPEl, humidityPEl);
+        cardTitle.appendChild(iconSpan);
+        iconSpan.append(iconImg);
+        };
     }
 
 searchBtn.addEventListener('click', startSearch);

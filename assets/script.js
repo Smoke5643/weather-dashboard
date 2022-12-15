@@ -9,6 +9,19 @@ var leftPanel = document.querySelector('.leftPanel');
 var storageList = JSON.parse(localStorage.getItem('city')) || [];
 
 
+var startSearch = function (event) {
+    event.preventDefault();
+    var w = input.value.trim();
+    getCode(w);
+    saveCity(w);
+    createButton(w);
+}
+
+var restartSearch = function (event) {
+    var w = event.target.innerHTML;
+    getCode(w);
+}
+
 var getCode = function (w) {
     var codeURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + w + "&limit=5&appid=" + apiKey;
 
@@ -143,35 +156,45 @@ var displayFiveDay = function (list) {
     };
 }
 
-var startSearch = function (event) {
-    event.preventDefault();
-    var w = input.value.trim();
-    getCode(w);
-    saveCity(w);
-}
 
 var saveCity = function (city) {
-    if (storageList.includes(city)){
+    if (storageList.includes(city)) {
         return;
-    }else{
+    } else {
         storageList.push(city)
         localStorage.setItem('city', JSON.stringify(storageList));
     }
 }
 
-var createButton = function (city) {
-    if (storageList.includes(city)){
+var createButton = function (city) {   
+    var cityButton = document.createElement('button');
+    cityButton.className = 'btn btn-secondary cityBtn ms-3 mb-3 w-100';
+    cityButton.setAttribute('type', 'button');
+    cityButton.textContent = city;
+    leftPanel.appendChild(cityButton);
+    
+}
+
+var recreateButton = function (city) {
+    if (storageList.includes(city)) {
         return;
-    }
-    for (var i = 0; i < storageList.length; i++) {
-        var cityButton = document.createElement('button');
-        cityButton.className = 'btn btn-secondary cityBtn ms-3 mb-3 w-100'
-        cityButton.setAttribute('type', 'button');
-        cityButton.textContent = storageList[i];
-        leftPanel.appendChild(cityButton);
+    } else {
+        for (var i = 0; i < storageList.length; i++) {
+            var cityButton = document.createElement('button');
+            cityButton.className = 'btn btn-secondary cityBtn ms-3 mb-3 w-100';
+            cityButton.setAttribute('type', 'button');
+            cityButton.textContent = storageList[i];
+            leftPanel.appendChild(cityButton);
+        }
     }
 }
 
-createButton();
+document.addEventListener('click', function (event) {
+    if (event.target.matches('.cityBtn')) {
+        restartSearch(event);
+    }
+})
 
 searchBtn.addEventListener('click', startSearch);
+
+recreateButton();

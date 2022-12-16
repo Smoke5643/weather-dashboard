@@ -8,8 +8,7 @@
 
 ## Description of project
 
-
-This application is a work day scheduler. It can be used to keep track of tasks during your work day. The text fields for each hour will change color based on the current time. Past is grey, present is red and future is green. Clicking the save button will persist the data on the page. Erase the data manually and resave to reset the text field. Jquery was used in the making of this application to practice my knowledge and understanding of it.
+This application allows a user to search for weather anywhere in the world. A current weather forecast is displayed in the main card while a 5 day forecast is also provided underneath. Every time a user searches a unique city, a button is added under the search bar that will allow them to display the data for that city again by simply clicking that button. 
 
 ## Visuals
 

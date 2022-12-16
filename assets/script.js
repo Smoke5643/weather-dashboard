@@ -2,13 +2,13 @@ var apiKey = '2193d760faaf2569d7030d04e1cbd2cc';
 var input = document.querySelector('#user-search')
 var searchBtn = document.querySelector('.searchButton');
 var currentCard = document.querySelector('.currentWeatherParent');
-var fiveDayCard = document.querySelector('.currentWeather');
+var fiveDayCard = document.querySelector('.fiveDayWeather');
 var fail = document.querySelector('.fail-button');
 var leftPanel = document.querySelector('.leftPanel');
 
 var storageList = JSON.parse(localStorage.getItem('city')) || [];
 
-
+// Beggining search function to gather data from API and load all elements
 var startSearch = function (event) {
     event.preventDefault();
     var w = input.value.trim();
@@ -16,12 +16,12 @@ var startSearch = function (event) {
     saveCity(w);
     createButton(w);
 }
-
+// Allows data to be reloaded if a saved button is clicked
 var restartSearch = function (event) {
     var w = event.target.innerHTML;
     getCode(w);
 }
-
+// Gets lattitude and longitude for getCoords to handle and retrieve correct weather data
 var getCode = function (w) {
     var codeURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + w + "&limit=5&appid=" + apiKey;
 
@@ -45,7 +45,7 @@ var getCoords = function (data) {
     resolveCurrent(lattitude, longitude);
     resolveFiveDay(lattitude, longitude);
 }
-
+// Gathers data to be able to display on screen
 var resolveCurrent = function (lattitude, longitude) {
     var openWeatherURL = 'https:api.openweathermap.org/data/2.5/weather?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
 
@@ -64,7 +64,7 @@ var resolveCurrent = function (lattitude, longitude) {
             fail.click();
         });
 }
-
+// Gathers 5 day forecast to display on screen
 var resolveFiveDay = function (lattitude, longitude) {
     var openWeatherURL = 'https:api.openweathermap.org/data/2.5/forecast?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
 
@@ -83,7 +83,7 @@ var resolveFiveDay = function (lattitude, longitude) {
             fail.click();
         });
 }
-
+// Formats and creates data to be displayed in current weather card
 var displayMainCard = function (data) {
     currentCard.innerHTML = null;
     var icon = data.weather[0].icon
@@ -100,7 +100,7 @@ var displayMainCard = function (data) {
     var windPEl = document.createElement('p');
     var humidityPEl = document.createElement('p');
 
-    card.className = 'card col-10 m-3 p-3';
+    card.className = 'card col-12 p-3';
     cardBody.classname = 'card-body';
     cardTitle.className = 'card-title';
     iconImg.setAttribute('src', iconImage)
@@ -117,10 +117,8 @@ var displayMainCard = function (data) {
     cardTitle.appendChild(iconSpan);
     iconSpan.append(iconImg);
 }
-
+// Formats and creates data to be displayed in 5 day weather cards
 var displayFiveDay = function (list) {
-    console.log(list);
-
     for (var i = 0; i < list.length; i += 8) {
 
         var unixTimestamp = list[i].dt;
@@ -137,7 +135,7 @@ var displayFiveDay = function (list) {
         var windPEl = document.createElement('p');
         var humidityPEl = document.createElement('p');
 
-        card.className = 'card col-2 m-2 p-2 bg-dark text-light';
+        card.className = 'card col-12 col-md m-2 p-2 bg-dark text-light';
         cardBody.classname = 'card-body';
         cardTitle.className = 'card-title';
         iconImg.setAttribute('src', iconImage)
@@ -148,15 +146,14 @@ var displayFiveDay = function (list) {
         windPEl.textContent = 'Wind: ' + list[i].wind.speed + ' MPH';
         humidityPEl.textContent = 'Humidity: ' + list[i].main.humidity + ' %';
 
-        currentCard.append(card);
+        fiveDayCard.append(card);
         card.append(cardBody);
         cardBody.append(cardTitle, tempPEl, windPEl, humidityPEl);
         cardTitle.appendChild(iconSpan);
         iconSpan.append(iconImg);
     };
 }
-
-
+// If the city searched is not already in local storage it is added
 var saveCity = function (city) {
     if (storageList.includes(city)) {
         return;
@@ -165,16 +162,15 @@ var saveCity = function (city) {
         localStorage.setItem('city', JSON.stringify(storageList));
     }
 }
-
-var createButton = function (city) {   
+// Creates buttons for each city weather search
+var createButton = function (city) {
     var cityButton = document.createElement('button');
     cityButton.className = 'btn btn-secondary cityBtn ms-3 mb-3 w-100';
     cityButton.setAttribute('type', 'button');
     cityButton.textContent = city;
     leftPanel.appendChild(cityButton);
-    
 }
-
+// Keeps past search buttons on page after reload
 var recreateButton = function (city) {
     if (storageList.includes(city)) {
         return;
@@ -188,13 +184,13 @@ var recreateButton = function (city) {
         }
     }
 }
-
+// Listens for the click on past search buttons to show data again
 document.addEventListener('click', function (event) {
     if (event.target.matches('.cityBtn')) {
         restartSearch(event);
     }
 })
-
+// Listens for main search button click to start all search processes
 searchBtn.addEventListener('click', startSearch);
-
+// Runs the function to recreate past search buttons
 recreateButton();

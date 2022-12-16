@@ -23,7 +23,7 @@ var restartSearch = function (event) {
 }
 // Gets lattitude and longitude for getCoords to handle and retrieve correct weather data
 var getCode = function (w) {
-    var codeURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + w + "&limit=5&appid=" + apiKey;
+    var codeURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + w + "&limit=5&appid=" + apiKey;
 
     fetch(codeURL)
         .then(function (response) {
@@ -87,7 +87,7 @@ var resolveFiveDay = function (lattitude, longitude) {
 var displayMainCard = function (data) {
     currentCard.innerHTML = null;
     var icon = data.weather[0].icon
-    var iconImage = 'http://openweathermap.org/img/w/' + icon + '.png';
+    var iconImage = 'https://openweathermap.org/img/w/' + icon + '.png';
     var unixTimestamp = data.dt;
     var date = new Date(unixTimestamp * 1000);
 
@@ -124,7 +124,7 @@ var displayFiveDay = function (list) {
         var unixTimestamp = list[i].dt;
         var date = new Date(unixTimestamp * 1000);
         var icon = list[i].weather[0].icon;
-        var iconImage = 'http://openweathermap.org/img/w/' + icon + '.png';
+        var iconImage = 'https://openweathermap.org/img/w/' + icon + '.png';
 
         var card = document.createElement('div');
         var cardBody = document.createElement('div');

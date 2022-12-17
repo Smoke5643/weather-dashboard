@@ -10,6 +10,7 @@ var storageList = JSON.parse(localStorage.getItem('city')) || [];
 
 // Beggining search function to gather data from API and load all elements
 var startSearch = function (event) {
+    fiveDayCard.innerHTML = null;
     event.preventDefault();
     var w = input.value.trim();
     getCode(w);
@@ -18,12 +19,13 @@ var startSearch = function (event) {
 }
 // Allows data to be reloaded if a saved button is clicked
 var restartSearch = function (event) {
+    fiveDayCard.innerHTML = null;
     var w = event.target.innerHTML;
     getCode(w);
 }
 // Gets lattitude and longitude for getCoords to handle and retrieve correct weather data
 var getCode = function (w) {
-    var codeURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + w + "&limit=5&appid=" + apiKey;
+    var codeURL = 'https://api.openweathermap.org/geo/1.0/direct?q=' + w + '&limit=5&appid=' + apiKey;
 
     fetch(codeURL)
         .then(function (response) {
@@ -119,6 +121,7 @@ var displayMainCard = function (data) {
 }
 // Formats and creates data to be displayed in 5 day weather cards
 var displayFiveDay = function (list) {
+   
     for (var i = 0; i < list.length; i += 8) {
 
         var unixTimestamp = list[i].dt;

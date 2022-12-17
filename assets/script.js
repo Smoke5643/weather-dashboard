@@ -49,7 +49,7 @@ var getCoords = function (data) {
 }
 // Gathers data to be able to display on screen
 var resolveCurrent = function (lattitude, longitude) {
-    var openWeatherURL = 'https:api.openweathermap.org/data/2.5/weather?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
+    var openWeatherURL = 'https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
 
     fetch(openWeatherURL)
         .then(function (response) {
@@ -68,7 +68,7 @@ var resolveCurrent = function (lattitude, longitude) {
 }
 // Gathers 5 day forecast to display on screen
 var resolveFiveDay = function (lattitude, longitude) {
-    var openWeatherURL = 'https:api.openweathermap.org/data/2.5/forecast?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
+    var openWeatherURL = 'https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=' + lattitude + '&lon=' + longitude + '&appid=' + apiKey;
 
     fetch(openWeatherURL)
         .then(function (response) {
